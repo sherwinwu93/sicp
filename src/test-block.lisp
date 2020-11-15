@@ -1,0 +1,10 @@
+(define (z x y)
+    (define (two y)
+        (* 2 y))
+    (DEFINE (ABS X)
+				(COND ((< X 0) (- X))
+					  ((= X 0) 0)
+					  ((> X 0) X))))
+    (+ (two y) x))
+
+(z 1 2)
