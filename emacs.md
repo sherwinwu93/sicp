@@ -47,8 +47,7 @@ C-u 8 C-f/b: 向前/后移动8个字符
 
 C-u 8 C-v/M-v: 做了纠正
 
-### IF EMACS STOPS RESPONDING emacs停止响应
-
+### IF EMACS STOPS RESPONDING emacs停止响应 
 C-g: 取消之前的输入,输入C-g
 
 ### DISABLED COMMANDS
