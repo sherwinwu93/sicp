@@ -94,6 +94,13 @@ Edwin前端是一个功能强大的编辑器,允许用Scheme进行任意的扩�
 
 ### 阅读MIT Scheme文档
 
+MIT Scheme Reference: MIT Scheme的详细功能
+
+MIT Scheme User's Manual: MIT Scheme 的使用
+
+SOS Reference Manual: SOS:Scheme 的对象系统
+
+IMAIL User's Manual: 用Scheme邮件阅读器
 
 
 
