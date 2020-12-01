@@ -1,7 +1,0 @@
-(define (sum-of-two-big a b c)
-  (- (+ a b c)
-     (cond ((and (< a b)
-		 (< a c)) a)
-	   ((< b c) b)
-	   (else c))))
-(sum-of-two-big 10 2 1)
