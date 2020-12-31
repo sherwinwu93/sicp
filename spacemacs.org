@@ -1,0 +1,77 @@
+* MIT/GNU Scheme User's Manual
+* Table of Contents
+* Introduction 简介
+  手册介绍Scheme的安装与使用
+* 1 Installation
+  sudo apt install scheme
+* 2 Running Scheme
+  如何运行scheme,如何通过命令行和环境变量配置scheme
+  1. Basic of Starting Scheme 启动Scheme基础
+  2. Customizing Scheme 定制Scheme
+  3. Memory Usage 内存使用
+  4. Command-Line Options 命令行选项
+  5. Custom Command-line Options 命令行定制选项
+  6. Environment Variables 环境变量
+  7. Starting Scheme from Microsoft Windows 从windows上启动scheme
+  8. Leaving Scheme 离开scheme
+** 2.1 Basic of Starting Scheme
+   ->scheme --compiler: 更大的space和heap,载入包括compiler的image
+   i
+** 2.2 Customizing Scheme 定制Scheme
+   多种方式设置
+   - 命令行选项
+   - 命令脚本可以多个
+   - init files
+   - 环境变量
+   - Icons
+
+** 2.3 Memory Usage 内存使用
+   能用多大内存,内存怎么分配的
+   Scheme使用4种内容:
+   1. stack: 递归过程
+   2. heap: 动态对象
+   3. constant space: 静态对象,生命周期和scheme一致
+   4. extra storage: 微内核
+   scheme有两种scheme: constant和heap共用内存
+   1. scheme: 2个heap gc ->stack + (constant + 2*heap) + extra
+   2. bchscheme: 1个heap gc , 一个disk file gc ->stack + (constant + heap) + extra
+** 2.4 Command-Line Options
+   所有命令参数都是--打头:
+   - --compiler: 使用large sizes加载compiler,如果--band也指定,那么生效--compiler
+   - --edwin:
+   - --compiler --edwin:
+   - --band filename: 加载镜像<filename>
+   - --large: 使用LARGE_HEAP...STACK,否则使用SMAL_HEAP...STACK
+   - --heap blocks:
+   - --constant blocks:
+   - --stack blocks:
+   - --option-summar
+   - --emacs:
+   - --interactive:和shell交互
+   - --nocore:scheme不会dump
+   - --library path:指定库
+   - --utabmd filename: 内核?
+   - --fasl filename: 用于维护scheme
+   - --gc-directory directory:
+   - --gc-file filename:
+   - --gc-keep:
+   - --gc-start-position number:
+     
+** 2.5 Custom Command-line Options
+   命令行绑定procedure
+** 2.6 Environment Variables
+   环境变量
+** 2.7 Starting Scheme from Microsoft Windows
+   略
+** 2.8 Leaving Scheme 离开scheme
+   - (exit)
+   - (quit)
+   - save-buffers-kill-scheme, C-x C-c
+   - 关闭窗口
+* 3 Using Scheme 使用scheme
+  表达式求值;加载程序;加载images;控制gc;使用编译器;debug程序
+  - REPL: 
+  - Loading Files:加载文件
+  - World Images: 镜像
+  - Garbage Collection: 垃圾回收
+  
