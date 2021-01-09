@@ -1,4 +1,4 @@
-(load "./sqrt-iter.sum")
+(load "./sqrt-iter.scm")
 (define (new-if predicate then-clause else-clause)
   (cond (predicate then-clause)
         (else else-clause)))
@@ -9,3 +9,5 @@
           (sqrt-iter (improve guess x)
                      x)))
 (sqrt-iter 1 2.0)
+;; 报错maximum recursion depth exceeded
+;; 超过递归过深

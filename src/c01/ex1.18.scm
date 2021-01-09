@@ -1,10 +1,15 @@
+;; 前置条件
+;; havle double
+(load "./halve-double.scm")
+;; logn的求法
 (define (* a b)
-  (* a b 0))
-(define (* a b s)
-  (cond ((= b 0) 0)
-        ((even? b)(f (double a)
-                     (havle b)
+  (multi-iter a b 0))
+(define (multi-iter a b s)
+  (cond ((= b 0) s)
+        ((even? b)(multi-iter (double a)
+                     (halve b)
                      s))
-        (else (f a
+        (else (multi-iter a
                  (- b 1)
                  (+ s a)))))
+(* 4 5)

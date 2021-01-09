@@ -1,3 +1,4 @@
+;; 迭代方式求幂
 (define (fast-expt b n)
   (fast-expt-iter b n 1))
 (define (fast-expt-iter b n a)
