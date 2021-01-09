@@ -1,9 +1,11 @@
+(load "./smallest-divisor.scm")
+
 (define (timed-prime-test n)
   (display n)
+  (newline)
   (start-prime-test n (runtime)))
 
 (define (start-prime-test n start-time)
-  (display start-time)
   (if (prime? n)
       (report-prime (- (runtime)
                        start-time))))
@@ -12,9 +14,5 @@
   (display "***")
   (newline)
   (display elapsed-time))
-(display "***\n")
 
-(define (search-for-primes min)
-  (search-for-primes-odd (if (even? min)
-                             (+ min 1)
-                             min)))
+;; (timed-prime-test 199999)
