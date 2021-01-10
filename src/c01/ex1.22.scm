@@ -1,4 +1,5 @@
 (load "./timed-prime-test.scm")
+(timed-prime-test 10000000000)
 
 (define (search-for-primes min)
   (search-for-primes-odd (if (even? min)

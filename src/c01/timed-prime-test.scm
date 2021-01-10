@@ -15,4 +15,4 @@
   (newline)
   (display elapsed-time))
 
-;; (timed-prime-test 199999)
+(timed-prime-test 19999999)

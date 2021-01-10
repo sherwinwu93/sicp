@@ -1,0 +1,33 @@
+(define (product term a next b)
+  (if (> a b)
+      1
+      (* (term a)
+         (product term (next a) next b))))
+;;迭代版本
+(define (product term a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a)
+              (* result (term a)))))
+  (iter a 1))
+
+(define (pi)
+  (define (pi-range a b)
+    (/ (* 4 (product term-up a 1+ b))
+       (product term-down a 1+ b)))
+  (define a 1)
+  (define b 100000)
+  (define (even? n)
+    (= (remainder n 2) 0))
+  (define (term-up n)
+    (if (even? n)
+        (+ n 2)
+        (+ n 1)))
+  (define (term-down n)
+    (if (even? n)
+        (+ n 1)
+        (+ n 2)))
+  (pi-range a b))
+
+(* 1.0 (pi))
