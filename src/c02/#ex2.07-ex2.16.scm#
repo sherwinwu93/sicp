@@ -92,7 +92,6 @@
     (div-interval one
 		  (add-interval (div-interval one r1)
 				(div-interval one r2)))))
-
 ;;lem说两式结果不一样
 ;;lem说法测试
 ;;数据r1 6.8+-0.68
