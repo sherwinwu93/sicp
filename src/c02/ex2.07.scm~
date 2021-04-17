@@ -1,6 +1,0 @@
-(define (upper-bound x)
-  (let ((a (car x))
-	(b (cdr x)))
-    (if (> a b)
-	a
-	b)))x
