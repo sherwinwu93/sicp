@@ -1,0 +1,49 @@
+* MIT Scheme的基本使用
+** 安装和启动
+*** 启动
+1. scheme
+2. edwin
+*** Edwin系统的退出
+- C-x z:挂起edwin回到Scheme
+- C-x c:停止edwin回到scheme
+- C-x C-z:停止edwin挂起scheme
+- C-x C-c:停止Edwin和Scheme
+*** 从交互循环进入Edwin
+交互下(edit)进入edwin
+*** 交互式执行中退出
+(exit)
+
+** 基本使用 --在edwin的使用
+*** 求值
+- C-x C-e: 求值当前值
+- M-z: 求值完整值
+*** 中断求值 --REPL
+- C-c C-x: 杀掉正在进行的求值
+- C-c C-b: 进入断点状态
+*** 命令历史
+- M-p: 上次输入
+- M-n: 下次输入
+*** 调试
+
+
+** Scheme文件操作
+*** 编辑和装入程序文件
+- (load "/root/test.scm"): 装载文件
+- (cd "/root"): 切换目录
+
+*** 保存和恢复系统镜像:
+world image:系统快照,使用全路径
+- (disk-save "/root/image1"): 存储镜像
+- (disk-restore "/root/image1"): 恢复镜像
+
+*** 阅读MIT Scheme文档
+- MIT Scheme Reference: scheme的详细功能
+  1. 过程的实例
+  2. 特殊形式的实例
+- MIT Scheme User's Manual: scheme的使用
+- SOS Reference Manual: SOS是scheme的对象系统
+- IMAIL User's Manual: IMAL是scheme的邮件阅读器
+
+
+
+

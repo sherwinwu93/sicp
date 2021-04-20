@@ -1,0 +1,110 @@
+* MIT/GNU Scheme
+* Introduction 简介
+* 1 Installation 安装
+** 1.1 Unix Installation
+** 1.2 Windows Installation
+** 1.3 Optional Configuration
+* 2 Running Scheme 启动与退出Scheme
+** 2.1 Basics of Starting Scheme:
+- (identify-world):scheme环境
+- scheme --compiler: 加载编译器,更大constant space和heap
+** 2.2 Customizing Scheme: 定制Scheme
+定制scheme的几种方式:
+- Command-line Options: 命令行选项
+- Command scripts or batch files: 脚本
+- .scheme.init: 初始化文件
+- 环境变量
+- 图标
+** 2.3 Memory Usage 内存使用情况
+kinds of memory: 除了最后的,其他都可以用命令行参数控制
+- stack: 用于递归过程调用
+- heap: 存储动态对象,例如:cons,string.未被引用的对象会被 garbage collection
+- constant space: 存储动态对象,但是不会被回收.例如:runtime system的procedure
+- extra storage:被microcode(C实现的系统)
+两种回收器: 内存和回收速度权衡
+- scheme: 两个堆,都使用内存
+  stack + (constant + 2*heap) + extra
+- bchscheme: 一个堆用内存,一个堆用磁盘空间
+  stack + (constant + heap) + extra
+constant space和heap一旦被分配,scheme回动态调整constant space的占比.一般不需要配置.
+
+- (print-gc-statistics): 显示heap和constant space
+** 2.4 Command-Line Options 命令行选项
+命令行选项:
+- --compiler: loading compiler,large sizes. 和--band同时使用,只有一个有效.没指定的话默认MITSCHEME_COMPILER_BAND
+- --edwin: 
+- --compiler --edwin: 同时compiler,edwin
+- --band <filename>: 载入镜像,默认 MITSCHEME_BAND
+- --large: large heap, constant, stack size, MITSCHEME_LAGRE_HEAP, MITSCHEME_LARGE_CONSTANT, MITSCHEME_LARGE_STACK. 没有该选项,则默认: MITSCHEME_SMALL_CONSTANT...
+
+- -- heap <blocks>: 指定heap,默认1024-word blocks
+- -- constant <blocks>:
+- -- stack <blocks>:
+- -- option-summary: 显示所有可设置的变量
+- --emacs:
+...
+
+** 2.5 Custom Command-line Options 
+** 2.6 Environment Variables
+** 2.7 Starting Scheme from Microsoft Windows
+** 2.8 Leaving Scheme
+
+* 3 Using Scheme
+** 3.1 The Read-Eval-Print Loop
+REPL的介绍
+*** 3.1.1 The Prompt and Level Number
+*** 3.1.2 Interrupting
+*** 3.1.3 Restarting
+*** 3.1.4 The Current REPL Environment
+** 3.2 Loading Files
+加载文件
+** 3.3 World Images
+系统镜像
+** 3.5 Garbage Collection
+垃圾回收
+
+* 4 Compiling Programs 编译程序
+** 4.1 Compilation Procedures
+编译过程
+** 4.2 Declarations
+声明
+*** 4.2.1 Standard Names 
+- (declare (usual-integerations)): 比如重写了car`cdr`cons, (declare (usual-integrations car cdr cons))
+*** 4.2.2 In-line Coding
+重构代码
+*** 4.2.3 Operator Replacement ??
+
+*** 4.2.4 Operator Reduction ??
+** 4.3 Efficiency Tips
+
+* 5 Debugging
+* 6 GNU Emacs Interface
+xscheme作为emacs的子进程
+emacs: 
+- M-x run-scheme 运行scheme
+* 7 Edwin
+** 7.1 Starting Edwin
+** 7.2 Leaving Edwin
+** 7.3 Scheme Mode
+- C-i: 缩进当前行
+** 7.4 Evaluation 
+- C-x C-e : 求值
+- M-z: 对整个定义求值
+- M-:: 在minbuffer输入并求值
+- C-M-z: eval整个区域的代码
+- M-o: eval整个buffer
+- C-c C-c: 停止求值
+** 7.5 REPL Mode
+- C-c C-d 当listening时,debug
+** 7.6 The Edwin Debugger
+1. edwin会创建一个*debug*的buffer
+2. 以S开头代表 一个子问题或者栈错误.一个子问题后面可能跟着多行(以R开头),表示子问题的信息.
+3. 移动到具体行,描述buffer会显示不一样的问题
+描述区:三区域
+1. 一区域: 经过美化的当前表达式,表达式的子问题高亮.
+2. 二区域: 当前表达式的环境,绑定值会显示在frame下面,即==>
+3. 三区域: 在子问题或reduction环境中 eval表达式. 可以编辑, 可以改变量或数据结构
+
+- q:退出调试器
+
+** 7.7 Last Resorts

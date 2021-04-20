@@ -1,0 +1,37 @@
+* MIT/GNU Scheme
+* Introduction 简介
+* 1 Installation 安装
+** 1.1 Unix Installation
+** 1.2 Windows Installation
+** 1.3 Optional Configuration
+* 2 Running Scheme 启动与退出Scheme
+** 2.1 Basics of Starting Scheme:
+- (identify-world):scheme环境
+- scheme --compiler: 加载编译器,更大constant space和heap
+** 2.2 Customizing Scheme: 定制Scheme
+定制scheme的几种方式:
+- Command-line Options: 命令行选项
+- Command scripts or batch files: 脚本
+- .scheme.init: 初始化文件
+- 环境变量
+- 图标
+** 2.3 Memory Usage 内存使用情况
+kinds of memory: 除了最后的,其他都可以用命令行参数控制
+- stack: 用于递归过程调用
+- heap: 存储动态对象,例如:cons,string.未被引用的对象会被 garbage collection
+- constant space: 存储动态对象,但是不会被回收.例如:runtime system的procedure
+- extra storage:被microcode(C实现的系统)
+两种回收器: 内存和回收速度权衡
+- scheme: 两个堆,都使用内存
+  stack + (constant + 2*heap) + extra
+- bchscheme: 一个堆用内存,一个堆用磁盘空间
+  stack + (constant + heap) + extra
+constant space和heap一旦被分配,scheme回动态调整constant space的占比.一般不需要配置
+** 2.4 Command-Line Options
+** 2.5 Custom Command-line Options
+** 2.6 Environment Variables
+*** 2.6.1 Environment Variables for the Microcode
+*** 2.6.2 Environment Variables for bchscheme
+*** 2.6.3 
+** 2.7 Starting Scheme from Microsoft Windows
+** 2.8 Leaving Scheme
