@@ -169,5 +169,18 @@
 
 
 3. 一个分别接受一个表ls和一个对象x的函数，该函数返回从ls中删除x后得到的表。
-
+(define (remove ls x)
+  (cond ((null? ls) '())
+	((equal? (car ls) x) (cons (car (cdr ls)) (remove (cdr (cdr ls)) x)))
+	(else (cons (car ls) (remove (cdr ls) x)))))
+(remove '(0 2 4) 2)
+      
 4. 一个分别接受一个表ls和一个对象x的函数，该函数返回x在ls中首次出现的位置。索引从0开始。如果x不在ls中，函数返回#f。
+(define (my-index ls x)
+  (my-index-iter ls x 0))
+(define (my-index-iter ls x i)
+  (cond ((null? ls) #f)
+	((equal? (car ls) x) i)
+	(else (my-index-iter (cdr ls) x (+ i 1)))))
+
+(my-index '(0 2 4 3) 3)
