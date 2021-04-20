@@ -150,11 +150,7 @@ let实际是lambda表达式的语法糖
 递归实现循环
 ** 递归
 递归函数:自己定义自己.
-计算阶乘
-fact.scm
-
-
-
-
-
-
+计算阶乘:
+    repeat.scm.fact
+重复表:
+   repeat.scm.list*2
