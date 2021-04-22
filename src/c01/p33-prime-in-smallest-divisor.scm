@@ -1,7 +1,7 @@
 (load "square")
 
 (define (prime? n)
-  (= (smallest-divisor n) 0))
+  (= (smallest-divisor n) n))
 
 (define (smallest-divisor n)
   (find-divisor n 2))
