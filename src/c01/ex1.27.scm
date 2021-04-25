@@ -1,26 +1,23 @@
-(define (fast-prime? n times)
-  (cond ((= times 0) true)
-        ((fast-test n) (fast-prime? n (- times 1)))
-        (else false)))
+(define (carmichael-test n)
+  (test-iter n 2))
 
-(define (fast-test n)
-  (define (try-it n a)
-    (= (expmod a n n) a))
-  (try-it n (+ 1 (random (- n 1)))))
+(define (test-iter n a)
+  (cond ((= a n) #t)
+        ((= a (expmod a n n))
+         (test-iter n (+ a 1)))
+        (else #f)))
 
-(define (expmod base exp m)
-  (cond ((= exp 0) 1)
-        ((even? exp) (remainder (square (expmod base (/ exp 2) m))
-                                m))
-        (else (remainder (* base (expmod base (-1+ exp) m))
-                         m))))
-(define carmichael '(561 1105 1729 2465 2821 6601))
-(define (try-carmichael carmichael)
-  (cond ((null? carmichael) (display "end"))
-        ((fast-test (car carmichael))
-         (newline)
-         (display (car carmichael))
-         (try-carmichael (cdr carmichael))
-         )
-        (else (try-carmichael (cdr carmichael)))))
-(try-carmichael carmichael)
+(load "p34-prime-in-fermat-test.scm")
+
+;; #t
+(carmichael-test 561)
+;; #t
+(carmichael-test 1105)
+;; #t
+(carmichael-test 1729)
+;; #t
+(carmichael-test 2465)
+;; #t
+(carmichael-test 2821)
+;; #t
+(carmichael-test 6601)
