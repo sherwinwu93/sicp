@@ -16,3 +16,11 @@
            1000)
 
 ;; 递归计算过程
+(define (cont-frac n d k)
+  (define (recur n d i k)
+    (if (= i k)
+        (/ (n k) (d k))
+        (/ (n k)
+           (+ (d k)
+              (recur n d (+ i 1) k)))))
+  (recur n d 1 k))
