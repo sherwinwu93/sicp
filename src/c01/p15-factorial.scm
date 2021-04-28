@@ -7,4 +7,3 @@
       (fact-iter (* counter product)
 		 (+ counter 1)
 		 max-count)))
-					   
