@@ -40,7 +40,15 @@
         (q (end-segment s)))
     (make-point (average (x-point p) (x-point q))
                 (average (y-point p) (y-point q)))))
-(define p (make-point 1 2))
+(define p (make-point 2 2))
 (define q (make-point 2 3))
 (define s (make-segment p q))
 (print-point (midpoint-segement s))
+
+(define (segement-length s)
+  (let ((dx (- (x-point (start-segment s)) (x-point (end-segment s))))
+        (dy (- (y-point (start-segment s)) (y-point (end-segment s)))))
+    (sqrt (+ (square dx)
+             (square dy)))))
+;; 测试
+(segement-length s)

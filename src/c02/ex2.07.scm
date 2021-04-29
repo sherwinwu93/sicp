@@ -1,0 +1,11 @@
+(load "p63-interval-procudure.scm")
+;; 区间的表示
+(define (make-interval a b)
+  (cons a b))
+(define (lower-bound i)
+  (car i))
+(define (upper-bound i)
+  (cdr i))
+(define i (make-interval 2 3))
+(lower-bound i)
+(upper-bound i)
