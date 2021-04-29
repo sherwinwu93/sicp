@@ -71,3 +71,9 @@
   (/ (+ (lower-bound i) (upper-bound i)) 2))
 (define (width i)
   (/ (- (upper-bound i) (lower-bound i)) 2))
+;; 3.35, 3.65
+(define i (make-center-width 3.5 0.15))
+;; 3.5
+(center i)
+;; 0.15
+(width i)
