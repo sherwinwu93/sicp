@@ -2,7 +2,7 @@
 ;; (25 16 9 4 1)
 (reverse (list 1 4 9 16 25))
 (my-reverse (list 1 4 9 16 25))
-;; todo ???
+;; 明确表结构的确切模型
 (define (my-reverse list)
   (if (null? list)
       '()

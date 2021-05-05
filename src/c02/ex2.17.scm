@@ -6,3 +6,11 @@
   (if (null? (cdr list))
       (car list)
       (my-last-pair (cdr list))))
+
+;; 修正, 必须了解所有情况
+(define (my-last-pair lst)
+  (cond ((null? lst)
+         (error "list empty --LAST-PAIR"))
+        ((null? (cdr lst)) lst)
+        (else
+         (my-last-pair (cdr lst)))))

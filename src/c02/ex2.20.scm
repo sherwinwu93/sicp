@@ -17,3 +17,15 @@
           ((= (remain (car tmp)) first-remain) (cons (car tmp) (iter (cdr tmp))))
           (else (iter (cdr tmp)))))
   (iter w))
+
+;; 改进
+;; 1. 检查第一个参数奇偶性
+(odd? 10)
+;; 2. 检查所有参数,保留和第一个奇偶相同的参数
+(filter lst)
+
+(define (same-parity sample . others)
+  (filter (if (even? sample)
+              even?
+              odd?)
+          (cons sample others)))
