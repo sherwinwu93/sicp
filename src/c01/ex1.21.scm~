@@ -1,3 +1,0 @@
-(load "p34-prime-in-fermat-test")
-
-(smallest-divisor 199)

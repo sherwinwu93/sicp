@@ -1,4 +1,4 @@
-(load "square")
+(load-r "c01/square.scm")
 
 (define (prime? n)
   (= (smallest-divisor n) n))
