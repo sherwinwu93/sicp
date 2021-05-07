@@ -15,7 +15,7 @@
 
 ;; 迭代计算过程, 帕斯卡另一公式(row line)=row!/ (line!(row-line)!)
 ;; 意义不大
-(load "p15-factorial.scm")
+(load (absolute "c01/p15-factorial.scm"))
 (define (pascal row line)
   (/ (factorial (- row 1))
      (* (factorial (- line 1))

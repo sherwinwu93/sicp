@@ -6,7 +6,7 @@
                  (sum-odd-squares (cdr tree))))))
 (sum-odd-squares (list 1 (list 2 3) 4 5))
 
-(load "../c01/p26-fib.scm")
+(load (absolute "c01/p26-fib.scm"))
 (define (even-fibs n)
   (define (next k)
     (if (> k n)

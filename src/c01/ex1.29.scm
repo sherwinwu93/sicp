@@ -1,4 +1,4 @@
-(load "p38-sum.scm")
+(load (absolute "c01/p38-sum.scm"))
 
 (define (integral f a b dx)
   (define (add-dx x) (+ x dx))

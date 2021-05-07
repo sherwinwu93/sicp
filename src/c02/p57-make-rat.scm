@@ -1,4 +1,4 @@
-(load "p55-rational-number.scm")
+(load (absolute "c02/p55-rational-number.scm"))
 ;; 构造器
 (define (make-rat n d)
   (cons n d))

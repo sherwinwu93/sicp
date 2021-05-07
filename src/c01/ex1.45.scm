@@ -26,10 +26,10 @@
 
 (define (average x y)
   (/ (+ x y) 2))
-(load "p46-fixed-point.scm")
-(load "ex1.43.scm")
+(load (absolute "c01/c01/p46-fixed-point.scm"))
+(load (absolute "c01/ex1.43.scm"))
 ;; n次方根
-(load "p30-fast-expt.scm")
+(load (absolute "c01/p30-fast-expt.scm"))
 (disk-save "image2")
 (disk-restore "image2")
 (define (n-root x n times)

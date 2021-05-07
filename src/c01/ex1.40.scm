@@ -1,5 +1,5 @@
 ;; 定义过程cubic,用牛顿法可以逼近三次方程x^3+ax^2+bx+c的零点
-(load "p49-newton-transform.scm")
+(load (absolute "c01/p49-newton-transform.scm"))
 (define (cubic a b c)
   (lambda(x)
     (+ (cube x)

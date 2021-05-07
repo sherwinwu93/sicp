@@ -7,7 +7,7 @@
          (test-iter n (+ a 1)))
         (else #f)))
 
-(load "p34-prime-in-fermat-test.scm")
+(load (absolute "c01/p34-prime-in-fermat-test.scm"))
 
 ;; #t
 (carmichael-test 561)

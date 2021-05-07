@@ -1,4 +1,4 @@
-(load "./sqrt-iter.scm")
+(load (absolute "c01/sqrt-iter.scm"))
 (define (new-if predicate then-clause else-clause)
   (cond (predicate then-clause)
         (else else-clause)))

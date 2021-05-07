@@ -1,7 +1,7 @@
 ;; e-2的连分式展开
 ;; 分式中Ni全是1,D1为1,2,1,1,4,1,1,6,1,1,8
 ;; 根据1.37,写出这个连分式的过程
-(load "ex1.37.scm")
+(load (absolute "c01/ex1.37.scm"))
 (define (e-2 k)
   (define (n i) 1.0)
   (define (d i)

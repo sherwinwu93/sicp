@@ -1,4 +1,4 @@
-(load "../c01/p30-fast-expt.scm")
+(load (absolute "c01/p30-fast-expt.scm"))
 ;; 将a和b的pair表示为2^a*3^b的整数s
 ;; 因为2与3互质,所以s的必然有a个2,b个3
 ;; 证明可行性

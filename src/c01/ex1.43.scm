@@ -17,7 +17,7 @@
 ((repeated square 2) 5)
 
 ;; 使用compose
-(load "ex1.42.scm")
+(load (absolute "c01/ex1.42.scm"))
 (define (repeated f n)
   (if (= n 1)
       f

@@ -1,6 +1,6 @@
 
-(load "ex1.17.scm")
-(load "ex1.16.scm")
+(load (absolute "c01/ex1.17.scm"))
+(load (absolute "c01/ex1.16.scm"))
 
 ;; 乘法的迭代运算 time=O(logn)
 (define (fast-multi a b)

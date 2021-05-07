@@ -1,4 +1,4 @@
-(load "p63-interval-procudure.scm")
+(load (absolute "c02/p63-interval-procudure.scm"))
 ;; 区间的表示
 (define (make-interval a b)
   (cons a b))

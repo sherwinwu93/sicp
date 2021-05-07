@@ -1,4 +1,4 @@
-(load "ex2.02.scm")
+(load (absolute "c02/ex2.02.scm"))
 
 ;; 矩形的周长
 (define (retangele-perimeter r)

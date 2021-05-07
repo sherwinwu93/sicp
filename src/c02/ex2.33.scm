@@ -1,5 +1,5 @@
 ;; 使用accumulate完成一些基本的表操作
-(load "./p76-sum-odd-squares$even-fib.scm")
+(load (absolute "c02/p76-sum-odd-squares$even-fib.scm"))
 ;; map
 (define (map p sequence)
   (accumulate (lambda(x y)

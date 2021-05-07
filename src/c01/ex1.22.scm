@@ -16,7 +16,7 @@
 
 (timed-prime-test 19999)
 
-(load "p33-prime-in-smallest-divisor")
+(load (absolute "p33-prime-in-smallest-divisor")
 ;; 检查给定范围内连续的各个奇数的素性
 (define (search-for-primes x)
   (cond ((even? x) (search-for-primes (+ x 1)))
@@ -49,7 +49,7 @@
 (next-odd 4)
 
 ;; 检查素数的函数
-(load "p33-prime-in-smallest-divisor.scm")
+(load (absolute "c01/p33-prime-in-smallest-divisor.scm"))
 (prime? 2)
 (prime? 3)
 

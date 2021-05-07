@@ -22,7 +22,7 @@
                                         (next a)
                                         next
                                         b)))))
-(load "p33-prime-in-smallest-divisor.scm")
+(load (absolute "c01/p33-prime-in-smallest-divisor.scm"))
 
 (define (sum-prime a b)
   (define (identity x) x)

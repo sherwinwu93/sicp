@@ -1,6 +1,6 @@
 ;; 类似乘法运算,差应该怎样计算
-(load "p63-interval-procudure.scm")
-(load "ex2.07.scm")
+(load (absolute "c02/p63-interval-procudure.scm"))
+(load (absolute "c02/ex2.07.scm"))
 (define (sub-interval x y)
   (add-interval x
                 (make-interval

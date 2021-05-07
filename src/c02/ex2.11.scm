@@ -1,6 +1,6 @@
 ;; 通过监测区间,mul-interval分为9种清空,每种情况所需乘法不超过2次
 ;; 重写该过程
-(load "ex2.08.scm")
+(load (absolute "c02/ex2.08.scm"))
 
 ;; 原区间乘法
 (define (mul-interval x y)

@@ -19,7 +19,7 @@
 ((smooth-n-times square 10) 5)
 
 ;; 载入repeated
-(load "ex1.43.scm")
+(load (absolute "c01/ex1.43.scm"))
 
 ;; 平滑函数过程
 (define (smooth f)

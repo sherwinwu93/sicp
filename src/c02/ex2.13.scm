@@ -1,4 +1,4 @@
-(load "ex2.12.scm")
+(load (absolute "c02/ex2.12.scm"))
 ;; 误差证明问题,用lower-bound指代upper-bound,计算出来
 ;; 4P/(1-P)^2
 

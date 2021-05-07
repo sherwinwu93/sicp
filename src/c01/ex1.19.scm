@@ -1,4 +1,4 @@
-(load "p26-fib.scm")
+(load (absolute "c01/p26-fib.scm"))
 
 ;; T变换  a<-a+b 和 b<-a, 每次一步
 ;; Tpq新的变换 a<-bq+aq+ap 和 b<-bp+aq, 也是每次一步.变换Tpq两次,等同于变换一次Tp'q'.那么Tp'q',就相对于指数运算对于底数的square,对于乘法运算(用加法计算)对于乘数的double,time=O(logn)

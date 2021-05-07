@@ -1,4 +1,4 @@
-(load "p33-prime-in-smallest-divisor")
+(load (absolute "p33-prime-in-smallest-divisor")
 ;; 199->199
 (smallest-divisor 199)
 ;; 1999->1999

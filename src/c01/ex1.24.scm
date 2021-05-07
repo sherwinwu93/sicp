@@ -1,4 +1,4 @@
-(load "p34-prime-in-fermat-test.scm")
+(load (absolute "c01/p34-prime-in-fermat-test.scm"))
 ;; 打印n,再检查是否素数,是素数打印检测时间
 (define (timed-prime-test n)
   (newline)
@@ -15,7 +15,7 @@
 
 (timed-prime-test 19999)
 
-(load "p34-prime-in-fermat-test.scm")
+(load (absolute "c01/p34-prime-in-fermat-test.scm"))
 ;; 检查给定范围内连续的各个奇数的素性
 (define (search-for-primes x)
   (cond ((even? x) (search-for-primes (+ x 1)))

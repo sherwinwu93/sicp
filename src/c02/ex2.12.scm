@@ -1,4 +1,4 @@
-(load "ex2.11.scm")
+(load (absolute "c02/ex2.11.scm"))
 ;; 再增加百分比
 (define (make-center-percent c p)
   (let ((w (/ (* c p) 100.0)))

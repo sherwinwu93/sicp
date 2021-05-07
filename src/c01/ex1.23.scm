@@ -1,4 +1,4 @@
-(load "square")
+(load (absolute "square")
 
 (define (prime? n)
   (= (smallest-divisor n) n))
@@ -16,7 +16,7 @@
 
 
 ;; 优化前
-(load "ex1.22.scm")
+(load (absolute "c01/ex1.22.scm"))
 ;; 160 1.28
 (test-foo 1000)
 ;; 266 1.47
