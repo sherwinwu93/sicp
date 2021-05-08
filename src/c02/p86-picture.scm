@@ -1,5 +1,12 @@
-#lang sicp
-(#%require sicp-pict)
+;; 绘图的准备工作
+#lang racket/gui
+(require graphics/graphics)
+(open-graphics)
+(define vp (open-viewport "A Picture Language" 500 500))
+
+(define draw (draw-viewport vp))
+(define (clear) ((clear-viewport vp)))
+(define line (draw-line vp))
 
 ;; 基本元素 painter
 ;; 基本操作 beside: 第一个左边,第二个右边, below:第一个下边,第二个上边, flip-vert 上下颠倒, flip-horiz: 水平翻转
@@ -80,3 +87,96 @@
           (let ((smaller (iter (- n 1))))
             (second-direct painter (first-direct smaller smaller)))))
     (iter n)))
+
+(define (frame-coord-map frame)
+  (lambda(v)
+    (add-vect
+     (origin-frame frame)
+     (add-vect (scale-vect (xcor-vect v)
+                           (edge1-frame frame))
+               (scale-vect (ycor-vect v)
+                           (edge2-frame))))))
+
+;; ex2.46 从原点出发的两位向量v由x和y的序对表示.
+;;        数据抽象: make-vect,xcor-vect,ycor-vect
+(define (make-vect x y)
+  (cons x y))
+(define (xcor-vect v)
+  (car v))
+(define (ycor-vect v)
+  (cdr v))
+;; 使用层
+;; 过程add-vect,sub-vect和scale-vect
+(define (add-vect v1 v2)
+  (let ((x1 (xcor-vect v1))
+        (y1 (ycor-vect v1))
+        (x2 (xcor-vect v2))
+        (y2 (ycor-vect v2)))
+    (make-vect (+ x1 x2)
+               (+ y1 y2))))
+(define (sub-vect v1 v2)
+  (let ((x1 (xcor-vect v1))
+        (y1 (ycor-vect v1))
+        (x2 (xcor-vect v2))
+        (y2 (ycor-vect v2)))
+    (make-vect (- x1 x2)
+               (- y1 y2))))
+(define (scale-vect s v)
+  (let ((x (xcor-vect v))
+        (y (ycor-vect v)))
+    (make-vect (* s x)
+               (* s y))))
+
+;; ex2.47 框架的两种可能的数据抽象
+;;        frame的数据抽象:make-frame,origin-frame,edge1-frame,edge2-frame
+;; 第一种构造器
+(define (make-frame origin edge1 edge2)
+  (list origin edge1 edge2))
+(define (origin-frame f)
+  (car f))
+(define (edge1-frame f)
+  (cadr f))
+(define (edge2-frame f)
+  (cadr (cad f)))
+
+;; 第二种构造器
+(define (make-frame origin edge1 edge2)
+  (cons origin (cons edge1 edge2)))
+(define (origin-frame f)
+  (car f))
+(define (edge1-frame f)
+  (car (cdr f)))
+(define (edge2-frame f)
+  (cdr (cdr f)))
+;; painter:画家(基本元素)
+;; 画家:一个过程,以框架为参数,通过位移和伸缩,画出与框架匹配的图.
+(define (segments->painter segment-list)
+  (lambda (frame)
+    (for-each
+     (lambda(segment)
+       (draw-line
+        ((frame-coord-map frame) (start-segment segment))
+        ((frame-coord-map frame) (end-segment segment))))
+     segment-list)))
+;; ex2.48 直线用一对向量表示
+;;        直线的数据抽象:make-segment,start-segment和end-segment,构建在向量的数据抽象上
+(define (make-segemnt v1 v2)
+  (cons v1 v2))
+(define (start-segment s)
+  (car s))
+(define (end-segment s)
+  (cdr s))
+
+;; ex2.49 利用segments->painter定义基本画家
+;; 绘图的示例
+(define x-painter
+  (segments->painter
+   (list
+    (make-segment (make-vect 0 0)
+                  (make-vect 1 1))
+    (make-segment (make-vect 0 1)
+                  (make-vect 1 0)))))
+
+(define unit-frame (make-frame (make-vect 0 500) (make-vect 500 0) (make-vect 0 -500)))
+(x-painter unit-frame)
+;; a.画出给定框架边界的画家
