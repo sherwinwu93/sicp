@@ -93,22 +93,6 @@
                (ycor-vect end))))
      segment-list)))
 
-;; 范例
-(define target-1 (make-bitmap 100 100))
-(define DC-1 (new bitmap-dc% [bitmap target-1]))
-
-(define x-painter
-  (segments->painter
-   (list
-    (make-segment (make-vect 0 0)
-                  (make-vect 1 1))
-    (make-segment (make-vect 0 1)
-                  (make-vect 1 0)))))
-(define unit-frame (make-frame (make-vect 0 0)
-                               (make-vect 1 0)
-                               (make-vect 0 1)
-                               DC-1))
-(x-painter unit-frame)
 ;; -Painters
 
 ;; -Transformer Generator
