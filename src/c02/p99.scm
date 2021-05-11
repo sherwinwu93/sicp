@@ -4,26 +4,26 @@
 
 ;; 数据抽象
 ;; e是变量吗?
-(variable? e)
+;; (variable? e)
 ;; v1和v2是同一个变量吗?
-(same-variable? v1 v2)
+;; (same-variable? v1 v2)
 ;; e是和式吗?
-(sum? e)
+;; (sum? e)
 ;; e的被加数
-(addend e)
+;; (addend e)
 ;; e的加数
-(augend e)
+;; (augend e)
 ;; 构造a1和a2的和式
-(make-sum a1 a2)
+;; (make-sum a1 a2)
 
 ;; e是乘式吗
-(product? e)
+;; (product? e)
 ;; e的被乘法
-(multiplier e)
+;; (multiplier e)
 ;; e的乘数
-(multiplicand e)
+;; (multiplicand e)
 ;; 构造m1与m2的乘式
-(make-product m1 m2)
+;; (make-product m1 m2)
 
 ;; 基本过程number?
 ;; 符合求导,只要选择函数和构造函数正确,整个过程都可以工作
