@@ -63,11 +63,14 @@
                         (multiplicand exp))))
         (else
          (error "unknown expression type -- DERIV" exp))))
-;; 构造处理括号的表达式
-;;  谓词nopair?,构造函数make-nopair,选择函数nopair
-(define make-nopair identity)
-(define (nopair? z)
-  )
-(define (nopair z)
-
-
+;; 正确的运算顺序
+;;   3 + 4 * x -> (3 + (4 * x))
+(define (transfer lst)
+  (define (iter incomplete-result result-end remain)
+    (if (null? remain)
+        (append incomplete-result result-end)
+        (if (eq? (car remain) '*)
+            (iter incomplete-result (list (list result-end '* (cadr remain))) (cdr (cdr remain)))
+            (iter (append incomplete-result (list result-end)) (car remain) (cdr remain)))))
+  (iter () (car lst) (cdr lst)))
+(transfer '(3 + 4 * x))
