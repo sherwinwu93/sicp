@@ -1,0 +1,12 @@
+(load-r "c02/ex2.62.scm")
+(load-r "c02/ex2.63.scm")
+(load-r "c02/ex2.64.scm")
+;; lookup过程:基于二叉树实现
+(define (lookup given-key tree-of-records)
+  (cond ((null? tree-of-records) false)
+        ((equal? given-key (key (car tree-of-records)))
+         (car tree-of-records))
+        ((< given-key (key (car tree-of-records)))
+         (lookup given-key (left-branch tree-of-records)))
+        ((> given-key (key (car tree-of-records)))
+         (lookup given-key (right-branch tree-of-records)))))

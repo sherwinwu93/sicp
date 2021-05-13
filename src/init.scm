@@ -4,4 +4,3 @@
                  relative))
 (define (load-r relative)
   (load (absolute relative)))
-(load-r "c01/square.scm")
