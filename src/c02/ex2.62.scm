@@ -1,4 +1,4 @@
-(load-r "c02/p103-set-op.scm")
+(load-r "c02/ex2.61.scm")
 ;; 定义set的union-set过程
 (define (union-set set1 set2)
   (cond ((null? set1) set2)
