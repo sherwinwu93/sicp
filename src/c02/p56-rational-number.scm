@@ -1,3 +1,4 @@
+(load-r "c02/p57-make-rat.scm")
 (define (add-rat x y)
   (make-rat (+ (* (numer x) (denom y))
                (* (numer y) (denom x)))
