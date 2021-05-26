@@ -1,22 +1,10 @@
-(load-r "c02/p118-complex.scm")
-(load-r "c02/p56-rational-number.scm")
-(define (apply-generic op . args)
-  (let ((type-tags (map type-tag args)))
-    (let ((proc (get op type-tags)))
-      (if proc
-          (apply proc (map contents args))
-          (error
-           "No method for these types -- APPLY-GENERIC"
-           (list op type-tags))))))
-;; 统一型算术过程的定义:
-;; add: 1.+;2.add-rat;3.add-complex
+(load-r "c02/p119-typed-data-util.scm")
 (define (add x y) (apply-generic 'add x y))
 (define (sub x y) (apply-generic 'sub x y))
 (define (mul x y) (apply-generic 'mul x y))
 (define (div x y) (apply-generic 'div x y))
 
-;; 常规书:scheme-number
-;; 数据导向
+;; 安装常规数包到通用
 (define (install-scheme-number-package)
   (define (tag x)
     (attach-tag 'scheme-number x))
@@ -30,14 +18,15 @@
        (lambda (x y) (tag (/ x y))))
   (put 'make 'scheme-number
        (lambda (x) (tag x)))
-  'done)
+  )
 (install-scheme-number-package)
-((get 'make 'scheme-number) 1)
-
 (define (make-scheme-number n)
   ((get 'make 'scheme-number) n))
-;; 有理数
+(add (make-scheme-number 1) (make-scheme-number 2))
+
+;; 安装有理数到通用
 (define (install-rational-package)
+  ;; internal procedures
   (define (numer x) (car x))
   (define (denom x) (cdr x))
   (define (make-rat n d)
@@ -69,27 +58,28 @@
        (lambda (x y) (tag (div-rat x y))))
   (put 'make 'rational
        (lambda (n d) (tag (make-rat n d))))
-  'done)
+  'Done)
 (install-rational-package)
 (define (make-rational n d)
   ((get 'make 'rational) n d))
-;; 复数
-;; 实际做了两层标志 从外至内 ('complex ('rectangular (cons 3 4)))
+(add (make-rational 2 3) (make-rational 1 2))
+
+(load-r "c02/p118-complex.scm")
+;; 安装复数到通用
 (define (install-complex-package)
   ;; imported procedures from rectangular and polar packages
-  ;; 从复数包导入
+  ;; 复数构造函数来自于complex包
   (define (make-from-real-imag x y)
     ((get 'make-from-real-imag 'rectangular) x y))
   (define (make-from-mag-ang r a)
     ((get 'make-from-mag-ang 'polar) r a))
-
   ;; internal procedures
   (define (add-complex z1 z2)
     (make-from-real-imag (+ (real-part z1) (real-part z2))
                          (+ (imag-part z1) (imag-part z2))))
   (define (sub-complex z1 z2)
     (make-from-real-imag (- (real-part z1) (real-part z2))
-                         (- (imag-part z1) (real-part z2))))
+                         (- (imag-part z1) (imag-part z2))))
   (define (mul-complex z1 z2)
     (make-from-mag-ang (* (magnitude z1) (magnitude z2))
                        (+ (angle z1) (angle z2))))
@@ -107,8 +97,16 @@
   (put 'div '(complex complex)
        (lambda (z1 z2) (tag (div-complex z1 z2))))
   (put 'make-from-real-imag 'complex
-       (lambda(x y) (tag (make-from-real-imag x y))))
+       (lambda (x y) (tag (make-from-real-imag x y))))
   (put 'make-from-mag-ang 'complex
        (lambda (r a) (tag (make-from-mag-ang r a))))
-  'done)
+  )
 (install-complex-package)
+(define (make-from-real-imag x y)
+  ((get 'make-from-real-imag 'complex) x y))
+(define (make-from-mag-ang r a)
+  ((get 'make-from-mag-ang 'complex) r a))
+(add (make-from-real-imag 1 2) (make-from-real-imag 3 4))
+(mul (make-from-mag-ang 1 2) (make-from-mag-ang 3 4))
+;; 直角形式3+4i
+(make-from-real-imag 3 4)

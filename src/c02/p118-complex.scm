@@ -1,4 +1,4 @@
-(load-r "c02/p186-make-table.scm")
+(load-r "c02/p119-typed-data-util.scm")
 ;; 使用复数的程序
 (define (add-complex z1 z2)
   (make-from-real-imag (+ (real-part z1) (real-part z2))

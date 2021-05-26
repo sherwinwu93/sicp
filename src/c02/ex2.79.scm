@@ -1,28 +1,22 @@
-(load-r "c02/p129-generic-arithmetic-operation.scm")
-;; 定义通用型相等equ?,检查两个数是否相等
-(define (install-equ-package)
-  (put 'equ? '(scheme-number scheme-number)
-       (lambda (x y)
-         (eq? x y)))
-  (put 'equ? '(rational rational)
-       (lambda (x y)
-         (and (eq? (numer x) (numer y))
-              (eq? (denom x) (denom y)))))
-  (put 'equ? '(complex complex)
-       (lambda (x y)
-         (and (eq? (real-part x)
-                   (real-part y))
-              (eq? (imag-part x)
-                   (imag-part y)))))
-  'done)
-(install-equ-package)
+(load-r "c02/p129-generic-operator.scm")
+(define (atom? x) (not (pair? x)))
+;; 安装equ到通用算术包里.能处理常规数`有理数和复数
+(define (install-equ?-package)
+  ;; interval-equ?
+  (define (equ? x y)
+    (cond ((and (atom? x) (atom? y)) (eq? x y))
+          ((and (pair? x) (pair? y)) (and (eq? (car x) (car y))
+                                          (equ? (cdr x) (cdr y))))
+          (else false)))
+  ;; interface to rest of the system
+  (put 'equ? '(scheme-number scheme-number) equ?)
+  (put 'equ? '(rational rational) equ?)
+  (put 'equ? '(complex complex) equ?)
+  )
+(define equ?
+  (lambda (x y) (apply-generic 'equ? x y)))
+(install-equ?-package)
 
-(apply-generic 'equ? ((get 'make 'scheme-number) 1) ((get 'make 'scheme-number) 1))
-(apply-generic 'equ? ((get 'make 'scheme-number) 1) ((get 'make 'scheme-number) 2))
-
-(apply-generic 'equ? ((get 'make 'rational) 1 2) ((get 'make 'rational) 1 2))
-(apply-generic 'equ? ((get 'make 'rational) 1 2) ((get 'make 'rational) 2 4))
-
-(apply-generic 'equ? ((get 'make-from-real-imag 'complex) 1 2) ((get 'make-from-real-imag 'complex) 1 2))
-(apply-generic 'equ? ((get 'make-from-real-imag 'complex) 1 2) ((get 'make-from-real-imag 'complex) 2 2))
-
+(equ? (make-scheme-number 1) (make-scheme-number 1))
+(equ? (make-rational 1 2) (make-rational 2 4))
+(equ? (make-from-real-imag 1 2) (make-from-real-imag 2 2))

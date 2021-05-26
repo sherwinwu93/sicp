@@ -5,7 +5,7 @@
 ;; 区间算术: 表示法构造器用两个有理数, 提供打印方法有理数转小数
 ;;           重新定义+-*/
 ;;           校验串联公式
-(load (absolute "c02/p55-rational-number.scm"))
+(load (absolute "c02/p56-rational-number.scm"))
 (load (absolute "c02/p57-make-rat.scm"))
 (define (make-interval l u)
   (cons l u))
