@@ -1,0 +1,12 @@
+(load-r "c02/p186-make-table.scm")
+(load-r "c02/g-attach-tag.scm")
+(load-r "c02/g-apply-generic.scm")
+
+(define (add x y) (apply-generic 'add x y))
+(define (sub x y) (apply-generic 'sub x y))
+(define (mul x y) (apply-generic 'mul x y))
+(define (div x y) (apply-generic 'div x y))
+(load-r "c02/g-install-scheme-number-package.scm")
+(load-r "c02/g-install-rational-package.scm")
+(load-r "c02/g-install-complex-package.scm")
+(add (make-rational 1 3) (make-rational 1 3))
