@@ -1,3 +1,12 @@
+(load-r "c02/ex2.81.scm")
+
+;; 处理多个参数的一般性情况下的强制问题
+;; 一种可能策略:将所有参数都强制到第一个参数类型,而后试着强制到第二个,并如此试下去
+;; 给出一个例子说明还不够一般(像ex2.81的两个参数例子)
+;; tips: 一些情况,表格里某些合用的操作不会被考虑
+
+;; 答: 无法处理的情况: A`B`C三类型,A->B`B->C可以,但是却不能A->C
+
 (define (apply-generic op . args)
   (let ((type-tags (map type-tag args)))
 
@@ -19,53 +28,41 @@
                         (t2->t1
                          (apply-generic op a1 (t2->t1 a2)))
                         (else
-                         (error "No method for these types"
+                         (error "No method for these types2"
                                 (list op type-tags))))))
-              (error "No method for these types2"
+              (error "No methods for these types"
                      (list op type-tags)))))))
-;; 安装常规数包到通用
-(load-r "c02/p129-install-complex-package.scm")
-(load-r "c02/p129-install-scheme-number-package.scm")
-(load-r "c02/p129-install-rational-package.scm")
 
-;; 推广apply-generic,处理多个参数的一般性情况下
-(define (apply-generic2 op args)
-  (display (list op args))
+(define (try-coercoin-args args)
+  (display args)
   (newline)
-  (let ((first-arg (car args)))
+  (let ((arg1 (car args))
+        (arg2 (cadr args)))
 
-    (let ((first-type (type-tag first-arg)))
+    (let ((type1 (type-tag arg1))
+          (type2 (type-tag arg2)))
 
-      (let ((same-type-args (map (lambda (arg)
-                                   (display "first-type")
-                                   (newline)
-                                   (display first-type)
-                                   (newline)
-                                   (display (type-tag arg))
-                                   (newline)
-                                   (if (equal? first-type (type-tag arg))
-                                       arg
-                                       (let ((force (get-coercion (type-tag arg) first-type)))
+      (display type2)
+      (display "-")
+      (display type1)
+      (let ((coercion-arg2 ((get-coercion type2 type1) arg2)))
+        (if (= (length args) 2)
+            (list arg1 coercion-arg2)
+            (append (list arg1)
+                    (try-coercoin-args (list (coercion-arg2)
+                                             (cdr (cdr args)))))))))
+  )
+(try-coercoin-args (list (make-from-real-imag 3 4) (make-rational 1 3) (make-scheme-number 1)))
 
-                                         (if force
-                                             (force arg)
-                                             (error "force error")))))
-                                 args)))
+(define (apply-generic-list op args)
+  (let ((type-tags (map type-tag args)))
 
-        (if (= (length same-type-args) 2)
-            (let ((proc (get op (list first-type first-type))))
+        (let ((proc (get op type-tags)))
 
-              (if proc
-                  (apply proc (map contents same-type-args))
-                  (error "No these methods3")))
-            (apply-generic2 op
-                            (append (apply-generic2 op
-                                                  (list (car same-type-args)
-                                                        (cadr same-type-args)))
-                                    (cdr (cdr same-type-args)))))))))
+          (if proc
+              (apply proc (map contents args))
+              (let ((coercion-args (try-coercoin-args args)))
 
-(put-coercion 'scheme-number 'complex
-              (lambda (x)
-                (make-from-real-imag (contents x) 0)))
-
-(apply-generic2 'add (list (make-from-real-imag 3 4) (make-scheme-number 1) (make-scheme-number 2)))
+                (if coercion-args
+                    (apply-generic-list op coercion-args)
+                    (error "No method for these types" (list op args))))))))
