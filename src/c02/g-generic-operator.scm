@@ -11,4 +11,6 @@
 (load-r "c02/g-install-scheme-number-package.scm")
 (load-r "c02/g-install-rational-package.scm")
 (load-r "c02/g-install-complex-package.scm")
+(load-r "c02/g-install-polynomial-package.scm")
+(load-r "c02/g-install-=zero?-package.scm")
 (add (make-rational 1 3) (make-rational 1 3))
