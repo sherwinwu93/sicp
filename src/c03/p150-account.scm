@@ -1,3 +1,12 @@
+;; 变量balance表示账户的余额
+(define balance 100)
+
+(define (withdraw amount)
+  (if (>= balance amount)
+      (begin (set! balance (- balance amount))
+             balance)
+      "Insufficient funds"))
+
 ;; 开始账户有100
 ;; 支取25=>75
 (withdraw 25)
@@ -8,14 +17,6 @@
 ;; =>35
 (withdraw 15)
 
-;; 变量balance表示账户的余额
-(define balance 100)
-
-(define (withdraw amount)
-  (if (>= balance amount)
-      (begin (set! balance (- balance amount))
-             balance)
-      "Insufficient funds"))
 
 ;; 将balance改为账户的变量
 ;; 提款对象
