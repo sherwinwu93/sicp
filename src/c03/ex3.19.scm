@@ -1,0 +1,13 @@
+(load "init")
+(load-r "c03/ex3.13.scm")
+(define (loop? lst)
+  (define (game x y)
+    (cond ((or (null? y) (null? (cdr y)))
+           false)
+          ((eq? (cdr x) (cdr (cdr y))) true)
+          (else
+           (game (cdr x) (cdr (cdr y))))))
+  (game lst lst))
+(define z (make-cycle (list 'a 'b)))
+(loop? z)
+(loop? (list 'a 'b))
