@@ -1,5 +1,0 @@
-(define (fib n)
-  (cond ((< n 2) n)
-	((= n 7) (/ 1 0))
-	(else (+ (fib (- n 1)) (fib (- n 2))))))
-(fib 10)
