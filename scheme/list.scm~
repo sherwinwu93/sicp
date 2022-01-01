@@ -1,3 +1,0 @@
-;; 练习1
-1. ("hi" . "everybody")
-(cons "hi" "everybody")
