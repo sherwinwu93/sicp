@@ -1,4 +1,4 @@
-(load "math.scm")
+(load-r "lib/math.scm")
 (define (sqrt x)
   (exact->inexact (try 1 x)))
 (define (try guess x)
