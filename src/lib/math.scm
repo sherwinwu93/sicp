@@ -7,3 +7,10 @@
   (if (>= x 0)
       x
       (- x)))
+(define (even? n)
+  (= (remainder n 2) 0))
+(even? 99)
+(define (halve x)
+  (/ x 2))
+(define (double x)
+  (* x 2))
