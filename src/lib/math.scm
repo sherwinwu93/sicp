@@ -14,3 +14,6 @@
   (/ x 2))
 (define (double x)
   (* x 2))
+(define (divides? a b)
+  (= (remainder b a)
+     0))
