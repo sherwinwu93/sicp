@@ -17,3 +17,9 @@
 (define (divides? a b)
   (= (remainder b a)
      0))
+(define (cube x)
+  (* x x x))
+(define (gcd a b)
+  (if (= b 0)
+      a
+      (gcd b (remainder a b))))
