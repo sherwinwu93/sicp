@@ -1,2 +1,14 @@
 ** mit-scheme版本
 9.1.1
+*** 编译emacs
+./configure
+make compile-microcode
+sudo make install
+(define device (make-graphics-device (car (enumerate-graphics-types))))
+; 这里定义一个划线的函数
+(define (draw-line v1 v2)
+        (graphics-draw-line device 
+                            (xcor-vect v1) 
+                            (ycor-vect v1) 
+                            (xcor-vect v2) 
+                            (ycor-vect v2)))
