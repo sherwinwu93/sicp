@@ -1,0 +1,18 @@
+(load-r "lib/math.scm")
+(define (sqrt x)
+  (exact->inexact (try 1 x)))
+(define (try guess x)
+  (if (good-enough? guess x)
+      guess
+      (try (improve guess x)
+	   x)))
+(define (good-enough? guess x)
+  (< (abs (- (square guess)
+	     x))
+     0.0000000001))
+(define (improve guess x)
+  (average guess
+	   (/ x guess)))
+(sqrt 2)
+(sqrt 9)
+(sqrt 8)

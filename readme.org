@@ -1,5 +1,6 @@
 ** mit-scheme版本
 9.1.1
+
 *** 编译emacs
 ./configure
 make compile-microcode
