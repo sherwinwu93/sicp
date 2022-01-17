@@ -23,3 +23,7 @@
   (if (= b 0)
       a
       (gcd b (remainder a b))))
+(define (negative? x)
+  (< x 0))
+(define (positive? x)
+  (> x 0))
