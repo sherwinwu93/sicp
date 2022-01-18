@@ -3,6 +3,9 @@
 (define (average x y)
   (/ (+ x y)
      2))
+(define (average-three x y z)
+  (/ (+ x y z)
+     3))
 (define (abs x)
   (if (>= x 0)
       x
