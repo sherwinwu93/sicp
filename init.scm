@@ -1,4 +1,4 @@
-(define $sicp-dir "~/codes/sicp/src")
+(define $sicp-dir "~/localcodes/sicp/src")
 (define (absolute-path relative-path)
   (string-append $sicp-dir
 		 "/"
