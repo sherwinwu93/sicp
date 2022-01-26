@@ -1,0 +1,13 @@
+;; 生产i j k, 1<= i j k <= n, i!=j!=k, i+j+k<s
+(define (combination s n)
+  (filter (lambda(list)
+	    (< (+ (car list) (cadr list) (caddr list))
+	       s))
+	  (flatmap (lambda(i)
+		     (flatmap (lambda(j)
+				(map (lambda(k)
+				       (list i j k))
+				     (enumerate-interval (+ j 1) n)))
+			      (enumerate-interval (+ i 1) n)))
+		   (enumerate-interval 1 n))))
+(combination 10 10)
