@@ -1,4 +1,4 @@
-;;flatmap=嵌套映射+append聚合
+;;flatmap=appendmap
 ;; 1<=j<i<=n 取i,j, i+j是素数
 (load-r "c02/p76-covention-interface.scm")
 (load-r "lib/math.scm")
