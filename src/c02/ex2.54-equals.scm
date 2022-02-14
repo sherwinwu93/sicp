@@ -7,6 +7,5 @@
 
 ;; true
 (equals? '(this is a list) '(this is a list))
-(atom? (list 1 2))
 ;; false
 (equals? '(this (is a) list) '(this (is a) list))
