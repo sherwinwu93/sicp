@@ -11,6 +11,8 @@
        (lambda (x y) (tag (* x y))))
   (put 'div '(scheme-number scheme-number)
        (lambda (x y) (tag (/ x y))))
+  (put 'exp '(scheme-number scheme-number)
+       (lambda (x y) (tag (expt x y))))
   (put '=zero? '(scheme-number)
        (lambda (x) (eq? x 0)))
   'done)

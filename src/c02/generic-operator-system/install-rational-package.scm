@@ -7,6 +7,8 @@
       (cons (/ n g) (/ d g))))
   (put 'make 'rational
        (lambda (n d) (tag (make-rat n d))))
+  (put 'numer '(rational) numer)
+  (put 'denom '(rational) denom)
 
   (define (add-rat x y)
     (make-rat (+ (* (numer x) (denom y))
