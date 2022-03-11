@@ -1,0 +1,25 @@
+;; 写出检查是否包含环的过程
+(define (last-pair x)
+  (if (null? (cdr x))
+      x
+      (last-pair (cdr x))))
+(define (make-cycle x)
+  (set-cdr! (last-pair x) x)
+  x)
+
+(define (loop? list)
+  (define (walk step list)
+    (cond ((null? list) ())
+	  ((= step 0) list)
+	  (else (walk (- step 1) (cdr list)))))
+  (define (iter list-1 list-2)
+    (let ((walk-1-list (walk 1 list-1))
+	  (walk-2-list (walk 2 list-2)))
+      (cond ((null? walk-2-list) false)
+	    ((eq? (car walk-1-list) (car walk-2-list))
+	     true)
+	    (else (iter walk-1-list walk-2-list)))))
+  (iter list list))
+
+(loop? (make-cycle (list 'a 'b 'c)))
+(loop? (list 'a 'b 'c))
