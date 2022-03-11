@@ -1,1 +1,49 @@
-(define
+;; 过程法
+;; 赋值+局部状态过程法
+(define (make-queue)
+  (let ((front-ptr '())
+	(rear-ptr '()))
+    (define (set-front-ptr! item) (set! front-ptr item))
+    (define (set-rear-ptr! item) (set! rear-ptr item))
+    (define (empty-queue?) (null? front-ptr))
+
+    (define (insert-queue! item)
+      (let ((new-pair (cons item ())))
+	(cond ((empty-queue?)
+	       (set-front-ptr! new-pair)
+	       (set-rear-ptr! new-pair)
+	       front-ptr)
+	      (else
+	       (set-cdr! front-ptr new-pair)
+	       (set-rear-ptr! new-pair)
+	       front-ptr))))
+    (define (delete-queue!)
+      (cond ((empty-queue?)
+	     (error "null queue"))
+	    (else
+	     (set-front-ptr! (cdr front-ptr))
+	     front-ptr)))
+    (define (front-queue)
+      (cond ((empty-queue?)
+	     (error "null queue"))
+	    (else
+	     (car front-ptr))))
+
+    (define (dispatch m)
+      (cond ((eq? 'insert-queue! m)
+	     insert-queue!)
+	    ((eq? 'delete-queue! m)
+	     delete-queue!)
+	    ((eq? 'empty-queue? m)
+	     empty-queue?)
+	    ((eq? 'front-queue m)
+	     front-queue)
+	    (else (error "undefined operation")
+	    )))
+    dispatch))
+
+(define q1 (make-queue))
+((q1 'insert-queue!) 'a)
+((q1 'insert-queue!) 'b)
+((q1 'delete-queue!))
+((q1 'front-queue))
