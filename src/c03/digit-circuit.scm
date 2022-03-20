@@ -215,8 +215,14 @@
 
 ;; ------------------------------ ex3.31
 ;; -- 如果不模拟action-procedure,会出现什么情况
+;; probe不会执行probe添加的action,而会返回wire的action-procedure,优先队列不会执行
+;; 直接执行action-procedures
+;;  gate时,先执行加入agenda, 把包装的procedure放入agenda,等模拟驱动时执行
+;;  probe时,直接执行获取agenda的current-time,并且获取wire的signal,名称
 (define (accept-action-procedure! proc)
   (set! action-procedures (cons proc action-procedures)))
+;; ------------------------------ ex3.32
+;; 代表执行的先后顺序,先后顺序变了
 
 
 ;; ------------------------------------------------------------ 待处理表的实现
@@ -278,3 +284,4 @@
       (let ((first-seg (first-segment agenda)))
 	(set-current-time! agenda (segment-time first-seg))
 	(front-queue (segment-queue first-seg)))))
+;; ex3.32 会出现sum为1

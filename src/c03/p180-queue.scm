@@ -11,7 +11,6 @@
 ;; (rear-ptr quece)
 ;; (set-front-ptr! queue item)
 ;; (set-rear-ptr! queue item)
-
 (define (front-ptr queue)
   (car queue))
 (define (rear-ptr queue)
@@ -46,3 +45,4 @@
 (insert-queue! q 'c)
 (insert-queue! q 'd)
 (delete-queue! q)
+(front-queue q)
