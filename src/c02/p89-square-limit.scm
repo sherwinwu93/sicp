@@ -60,8 +60,10 @@
   (let ((quarter (corner-split painter n)))
     (let ((half (beside (flip-horiz quarter) quarter)))
       (below (flip-vert half) half))))
+(define (indentity x)  x)
 (graphics-clear device)
 ((square-limit wave 12) frame-a)
+((corner-split wave 12) frame-a)
 
 ;; ------------------------------------------------------------
 ;; 高级操作
