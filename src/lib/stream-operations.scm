@@ -1,0 +1,27 @@
+(define (display-stream s)
+  (stream-for-each display-line s))
+(define (display-line x)
+  (newline)
+  (display x))
+(define (memo-proc proc)
+  (let ((already-run? false) (result false))
+    (lambda()
+      (if (not already-run?)
+	  (begin (set! result (proc))
+		 (set! already-run? true)
+		 result)
+	  result))))
+(define (show x)
+  (display-line x)
+  x)
+(define (stream-show s n)
+  (stream-ref (stream-map show s) n))
+(define (mul-streams s1 s2)
+  (stream-map * s1 s2))
+
+(define (stream-enumerate-interval low high)
+  (if (> low high)
+      the-empty-stream
+      (cons-stream
+       low
+       (stream-enumerate-interval (+ low 1) high))))

@@ -24,11 +24,6 @@
 ;; 	     (stream-for-each proc (stream-cdr s)))))
 ;; ------------------------------ 已实现
 ;; stream-for-each对考察流非常有用
-(define (display-stream s)
-  (stream-for-each display-line s))
-(define (display-line x)
-  (newline)
-  (display x))
 ;; 流和常规表数据抽象完全一样,不同点在于元素的求值时间
 ;; promise
 ;; (delay exp) => promise
@@ -49,12 +44,6 @@
 ;; ------------------------------ 已实现
 
 ;; ------------------------------ 已实现
-;; (define (stream-enumerate-interval low high)
-;;   (if (> low high)
-;;       the-empty-stream
-;;       (cons-stream
-;;        low
-;;        (stream-enumerate-interval (+ low 1) high))))
 ;; ------------------------------ 已实现
 ;; (cons 10000 (delay (stream-enumerate-interval 10001 1000000)))
 ;; ------------------------------ 已实现
@@ -74,14 +63,6 @@
 ;; (define (force delayed-object)
 ;;   (delayed-object))
 ;; ------------------------------ 已实现
-(define (memo-proc proc)
-  (let ((already-run? false) (result false))
-    (lambda()
-      (if (not already-run?)
-	  (begin (set! result (proc))
-		 (set! already-run? true)
-		 result)
-	  result))))
 ;; ------------------------------ ex3.50 stream-map的推广
 ;; ------------------------------ 已实现
 ;; (define (stream-map proc . argstreams)
@@ -94,14 +75,10 @@
 ;; (stream-ref (stream-map + (stream-enumerate-interval 1 10) (stream-enumerate-interval 11 20)) 1)
 ;; ------------------------------ 已实现
 ;; ------------------------------ ex3.51
-(define (show x)
-  (display-line x)
-  x)
+(load-r "lib/stream-operations.scm")
 
 ;; 按执行顺序 0 1 2 3 4 5 6 7 8 9 10
 (define x (stream-map show (stream-enumerate-interval 0 10)))
-(define (stream-show s n)
-  (stream-ref (stream-map show s) n))
 
 ;; 从第0个开始算,5
 (stream-ref x 5)
@@ -165,7 +142,7 @@ sum
   (stream-map (lambda(x) (* x factor)) stream))
 ;; 2的幂无限流
 (define double (cons-stream 1 (scale-stream double 2)))
-(display-stream double)
+(stream-show double 10)
 ;; 素数无限流
 (define primes
   (cons-stream
@@ -186,8 +163,6 @@ sum
 ;; ------------------------------ ex3.54
 (define factorials (cons-stream 1
 				(mul-streams (integers-starting-from 2) factorials)))
-(define (mul-streams s1 s2)
-  (stream-map * s1 s2))
 (stream-show factorials 2)
 ;; ------------------------------ ex3.55
 (define (partial-sums s)
@@ -237,4 +212,16 @@ sum
    (expand (remainder (* num radix) den) den radix)))
 (stream-show (expand 1 7 10) 20)
 ;; ------------------------------ ex3.59
-
+;; 用流表示无穷多项式
+;; a.
+(define (integrate-series as)
+  (stream-map / as integers))
+;; b. e^x的积分就是e^x本身
+(define exp-series
+  (cons-stream 1 (integrate-series exp-series)))
+;; sin的导数是cos, cos的导数是负的sin
+(define cosine-series
+  (cons-stream 1 (integrate-series (scale-stream sine-series -1))))
+(define sine-series
+  (cons-stream 0 (integrate-series cosine-series)))
+(stream-show exp-series 10)
