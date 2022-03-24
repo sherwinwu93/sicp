@@ -142,7 +142,7 @@ sum
   (stream-map (lambda(x) (* x factor)) stream))
 ;; 2的幂无限流
 (define double (cons-stream 1 (scale-stream double 2)))
-(stream-show double 10)
+;; (stream-show double 10)
 ;; 素数无限流
 (define primes
   (cons-stream
@@ -159,11 +159,11 @@ sum
 ;; ------------------------------ ex3.53
 ;; 2的指数
 (define s (cons-stream 1 (add-streams s s)))
-(stream-show s 10)
+;; (stream-show s 10)
 ;; ------------------------------ ex3.54
 (define factorials (cons-stream 1
 				(mul-streams (integers-starting-from 2) factorials)))
-(stream-show factorials 2)
+;; (stream-show factorials 2)
 ;; ------------------------------ ex3.55
 (define (partial-sums s)
   (define sums
@@ -177,7 +177,7 @@ sum
    (stream-map
     (lambda(x) (+ x (stream-car s)))
     (partial-sums (stream-cdr s)))))
-(stream-show (partial-sums integers) 4)
+;; (stream-show (partial-sums integers) 4)
 ;; ------------------------------ ex3.56
 (define (merge s1 s2)
   (cond ((stream-null? s1) s2)
@@ -196,7 +196,7 @@ sum
 			  (merge (scale-stream s 2)
 				 (scale-stream s 3))
 			  (scale-stream s 5))))
-(stream-show s 10)
+;; (stream-show s 10)
 ;; ------------------------------ ex3.57
 (define fibs (cons-stream 0
 			  (cons-stream 1
@@ -210,7 +210,7 @@ sum
    ;; 求整数商
    (quotient (* num radix) den)
    (expand (remainder (* num radix) den) den radix)))
-(stream-show (expand 1 7 10) 20)
+;; (stream-show (expand 1 7 10) 20)
 ;; ------------------------------ ex3.59
 ;; 用流表示无穷多项式
 ;; a.
@@ -220,8 +220,233 @@ sum
 (define exp-series
   (cons-stream 1 (integrate-series exp-series)))
 ;; sin的导数是cos, cos的导数是负的sin
-(define cosine-series
-  (cons-stream 1 (integrate-series (scale-stream sine-series -1))))
+;; 最终和是cos(1)的值,因为这里默认系数是1
 (define sine-series
   (cons-stream 0 (integrate-series cosine-series)))
-(stream-show exp-series 10)
+(define cosine-series
+  (cons-stream 1 (integrate-series (scale-stream sine-series -1))))
+;; 最终和为1
+;; (stream-show cosine-series 10)
+;; sin(1)的值
+;; (stream-show sine-series 10)
+;; (stream-show exp-series 10)
+;; ------------------------------ ex3.60
+(define (mul-series s1 s2)
+  (cons-stream
+   (* (stream-car s1)
+      (stream-car s2))
+   (add-streams (scale-stream (stream-cdr s1)
+			      (stream-car s2))
+		(mul-series s1
+			    (stream-cdr s2)))))
+(define sine-square+cosine-square
+  (add-streams (mul-series sine-series sine-series)
+	       (mul-series cosine-series cosine-series)))
+;; (stream-show sine-square+cosine-square 10)
+;; 把sine认为是流,把cosine认为是流.最后两流的平方和是1
+;; ------------------------------ ex3.61
+;; (stream-show (integrate-series ones) 10)
+;; s的常数项为1, 非常数项为(stream-cdr s)
+(define (reciprocal s)
+  (cons-stream 1
+	       (scale-stream
+		(mul-streams (stream-cdr s) (reciprocal s))
+		-1)))
+;; (stream-show
+;; (mul-series (reciprocal integers) integers)
+;; 100)
+;; ------------------------------ ex3.62定义div-series
+(define (div-series s1 s2)
+  (if (= 0 (stream-car s2))
+      (erorr "no-zero s2")
+      (mul-series s1 (reciprocal s2))))
+(div-series sine-series cosine-series)
+;; ------------------------------------------------------------ 3.5.3 流计算模式的使用
+;; ------------------------------------------------------------ 系统地将迭代操作方式表示为流过程
+(define (sqrt-improve guess x)
+  (average guess (/ x guess)))
+(define (sqrt-stream x)
+  (define guesses
+    (cons-stream 1.0
+		 (stream-map (lambda(guess) (sqrt-improve guess x))
+			     guesses)))
+  guesses)
+;; (stream-show (sqrt-stream 100) 10)
+(define (pi-summands n)
+  (cons-stream (/ 1.0 n)
+	       (scale-stream (pi-summands (+ n 2))
+			     -1)))
+(define pi-stream
+  (scale-stream (partial-sums (pi-summands 1)) 4))
+;; (stream-show pi-stream 10)
+(load-r "lib/math.scm")
+;; 序列加速器.逼近序列,而且要快的多
+(define (euler-transform s)
+  (let ((s0 (stream-ref s 0))
+	(s1 (stream-ref s 1))
+	(s2 (stream-ref s 2)))
+    (cons-stream (- s2 (/ (square (- s2 s1))
+			  (+ s0 (* -2 s1) s2)))
+		 (euler-transform (stream-cdr s)))))
+;; (stream-show (euler-transform pi-stream) 10)
+;; 加速是一个流s1, 加速加速流为流s1的流s11
+(define (make-tableau transform s)
+  (cons-stream s
+	       (make-tableau transform
+			     (transform s))))
+(define (accelerated-sequence transform s)
+  (stream-map stream-car
+	      (make-tableau transform s)))
+;; ------------------------------ ex3.63
+;; 过于低效
+(define (sqrt-stream x)
+  (cons-stream 1.0
+	       (stream-map (lambda(guess)
+			     (sqrt-improve guess x))
+			   (sqrt-stream x))))
+;; 确实过于低效,因为sqrt-stream会重复计算, 如果delay没采用memo-proc会一样低效,会重复计算(tail (tail...))
+;; ------------------------------ ex3.64
+(define (stream-limit s tolerance)
+  (let ((s0 (stream-ref s 0))
+	(s1 (stream-ref s 1)))
+    (if (< (abs (- s0 s1)) tolerance)
+	s0
+	(stream-limit (stream-cdr s) tolerance))))
+(define (sqrt x tolerance)
+  (stream-limit (sqrt-stream x) tolerance))
+(sqrt 100 0.0001)
+;; ------------------------------ ex3.65
+(define (e-summands n)
+  (cons-stream
+   (/ 1.0 n)
+   (scale-stream (e-summands (+ n 1))
+		 -1)))
+;; (stream-show (e-summands 1) 10)
+;; ------------------------------------------------------------ 序对的无穷流
+
+;; int-pairs满足i<=j
+;; prime-sum-pairs
+;; (stream-filter (lambda(pair)
+;; 		 (prime? (+ (car pair) (cadr pair))))
+;; 	       int-pairs)
+;; (stream-map (lambda(x) (list (stream-car s) x))
+;; 	    (stream-cdr t))
+
+(define (pairs s t)
+  (cons-stream
+   (list (stream-car s) (stream-car t))
+   (stream-append
+    (stream-map (lambda(x) (list (stream-car s) x))
+		(stream-cdr t))
+    (pairs (stream-cdr s) (stream-cdr t)))))
+;; ------------------------------ 已实现
+;; 有穷流
+;; (define (stream-append s1 s2)
+;;   (if (stream-null? s1)
+;;       s2
+;;       (cons-stream (stream-car s1)
+;; 		   (stream-append (stream-cdr s1) s2))))
+;; ------------------------------ 已实现
+;; 无穷流
+(define (interleave s1 s2)
+  (if (stream-null? s1)
+      s2
+      (cons-stream (stream-car s1)
+		   (interleave s2 (stream-cdr s1)))))
+(define (pairs s t)
+  (cons-stream
+   (list (stream-car s)
+	 (stream-car t))
+   (interleave
+    (stream-map (lambda(x) (list (stream-car s) x))
+		(stream-cdr t))
+    (pairs (stream-cdr s)
+	   (stream-cdr t)))))
+(pairs integers integers)
+(stream-ref (pairs integers integers) 2)
+;; 2^2^n
+;; (stream-show (pairs integers integers) 50)
+;; ------------------------------ ex3.67
+(define (pairs s t)
+  (cons-stream
+   (list (stream-car s)
+	 (stream-car t))
+   (interleave
+    (stream-map (lambda(x) (list (stream-car s) x))
+		(stream-cdr t))
+    (pairs (stream-cdr s)
+	   t))))
+;; ------------------------------ ex3.68
+;; (define (pairs s t)
+;;   (interleave
+;;    (stream-map (lambda(x) (list (stream-car s) x))
+;; 	       t)
+;;    (pairs (stream-cdr s) (stream-cdr t))))
+;; 不可行,无线递归
+(pairs integers integers)
+;; ------------------------------ ex3.69
+(define (triples s t u)
+  (let ((pairs-tu (pairs t u)))
+    (define (triples s tu)
+      (cons-stream
+       (append (list (stream-car s)) (stream-car tu))
+       (interleave
+	(stream-map (lambda(x) (append (list (stream-car s)) x))
+		    (stream-cdr tu))
+	(triples (stream-cdr s)
+		 (stream-cdr tu)))))
+    (stream-filter
+     (lambda(x) (= (+ (square (car x)) (square (cadr x))) (square (caddr x))))
+     (triples s pairs-tu))))
+;; ;; (stream-show (triples integers integers integers) 2)
+(define (merge-weighted s t weight)
+  (cond ((stream-null? s) t)
+	((stream-null? t) s)
+	(else
+	 (if (<= (weight (stream-car s))
+		 (weight (stream-car t)))
+	     (cons-stream (stream-car s)
+			  (merge-weighted (stream-cdr s) t weight))
+	     (cons-stream (stream-car t)
+			  (merge-weighted s (stream-cdr t) weight))))))
+(define (weighted-pairs s t weight)
+  (cons-stream
+   (list (stream-car s)
+	 (stream-car t))
+   (merge-weighted
+    (stream-map (lambda(x) (list (stream-car s) x))
+		(stream-cdr t))
+    (weighted-pairs (stream-cdr s)
+		    (stream-cdr t)
+		    weight)
+    weight)))
+(stream-show
+ (weighted-pairs integers
+		 integers
+		 (lambda(x) (+ (car x) (cadr x))))
+ 20)
+;; ------------------------------ ex3.71
+;; (define (ramanujan weight)
+;;     (define (stream-limit-ramanujan s)
+;;       (let ((s0 (stream-ref s 0))
+;; 	    (s1 (stream-ref s 1)))
+;; 	(if (= (weight (car s0) (cadr s0))
+;; 	       (weight (car s1) (cadr s1)))
+;; 	    (cons-stream s0
+;; 			 (stream-limit-ramanujan (stream-cdr (stream-cdr s))))
+;; 	    (stream-limit-ramanujan (stream-cdr s)))))
+;;     (stream-limit-ramanujan (weighted-pairs integers integers weight)))
+;; (define (triple x) (* x x x))
+;; (stream-show (ramanujan (lambda (i j) (+ (triple i) (triple j)))) 10)
+(define (stream-cadr s) (stream-car (stream-cdr s)))
+(define (stream-cddr s) (stream-cdr (stream-cdr s)))
+(define (triple x) (* x x x))
+(define (sum-triple x) (+ (triple (car x)) (triple (cadr x))))
+(define (ramanujan s)
+  (let ((scar (stream-car s))
+	(scadr (stream-cadr s)))
+    (if (= (sum-triple scar) (sum-triple scadr))
+	(cons-stream (list (sum-triple scar) scar scadr)
+		     (ramanujan (stream-cddr s)))
+	(ramanujan (stream-cdr s)))))
+(stream-show (ramanujan (weighted-pairs integers integers sum-triple)) 10)
